@@ -169,3 +169,47 @@
 </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rosary Campus Funding Dashboard – Interactive Liquidity & Sensitivity</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .slider { accent-color: #22c55e; }
+    .popup { display: none; position: fixed; background: rgba(0,0,0,0.8); color: white; padding: 20px; border-radius: 12px; max-width: 400px; }
+  </style>
+</head>
+<body class="bg-gray-950 text-white">
+  <h1 class="text-4xl text-center py-8">Rosary Campus – Interactive 20-Year Liquidity Plan</h1>
+  
+  <!-- Sliders -->
+  <div class="max-w-4xl mx-auto grid grid-cols-2 gap-8">
+    <div>
+      <label>Token Revenue Growth (% p.a.) <span id="tokenVal">8</span>%</label>
+      <input type="range" min="0" max="20" value="8" class="slider w-full" id="tokenSlider" oninput="updateAll()">
+    </div>
+    <div>
+      <label>Negative Price Hours per Year</label>
+      <input type="range" min="400" max="1200" value="800" class="slider w-full" id="hoursSlider" oninput="updateAll()">
+    </div>
+    <!-- Weitere Slider für Solar Yield, Arbitrage Price etc. -->
+  </div>
+
+  <!-- Live Tabelle + Charts -->
+  <div id="liveTable" class="max-w-4xl mx-auto mt-8"></div>
+
+  <!-- Pop-up Beispiele (Tech Level) -->
+  <button onclick="showPopup(1)" class="bg-green-600 px-6 py-3 rounded-xl">What is Patent DE10307771B4?</button>
+  <div id="popup1" class="popup">The patented spiral hill-bed system with central pond achieves 30,000-fold yield increase through synergistic planting and water recycling.</div>
+
+  <script>
+    function updateAll() {
+      // Hier Formeln aus der Excel nachbauen – live aktualisieren
+      console.log("Updating with sliders...");
+      // Vollständige JS-Logik kann bei Bedarf erweitert werden
+    }
+    function showPopup(n) { /* Modal logic */ }
+  </script>
+</body>
+</html>
