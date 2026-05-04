@@ -170,46 +170,214 @@
 </body>
 </html>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Rosary Campus Funding Dashboard – Interactive Liquidity & Sensitivity</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rosary Campus Funding 2026 • Interactive Liquidity Plan</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
-    .slider { accent-color: #22c55e; }
-    .popup { display: none; position: fixed; background: rgba(0,0,0,0.8); color: white; padding: 20px; border-radius: 12px; max-width: 400px; }
+    .slider { accent-color: #10b981; }
+    .modal { animation: modalPop 0.3s ease-out; }
+    @keyframes modalPop { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .value { font-size: 1.5rem; font-weight: 700; color: #10b981; }
   </style>
 </head>
-<body class="bg-gray-950 text-white">
-  <h1 class="text-4xl text-center py-8">Rosary Campus – Interactive 20-Year Liquidity Plan</h1>
-  
+<body class="bg-gray-950 text-white font-sans">
+
+<div class="max-w-7xl mx-auto px-6 py-8">
+  <header class="flex justify-between items-center mb-12">
+    <div>
+      <h1 class="text-5xl font-bold text-emerald-400">Rosary Campus</h1>
+      <p class="text-emerald-300 text-xl">Regenerative Funding Dashboard 2026–2046</p>
+    </div>
+    <a href="https://github.com/Rosary-mom/rosary-campus-funding-2026" target="_blank" 
+       class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-2xl font-medium flex items-center gap-2">
+      <span>GitHub Repo</span>
+    </a>
+  </header>
+
+  <h2 class="text-3xl font-semibold mb-8 text-center">Interaktiver Liquiditätsplan • ROSARY UG & Co KG Holding</h2>
+
   <!-- Sliders -->
-  <div class="max-w-4xl mx-auto grid grid-cols-2 gap-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 bg-gray-900 rounded-3xl p-8">
     <div>
-      <label>Token Revenue Growth (% p.a.) <span id="tokenVal">8</span>%</label>
-      <input type="range" min="0" max="20" value="8" class="slider w-full" id="tokenSlider" oninput="updateAll()">
+      <label class="block text-sm mb-2">Token Revenue Growth p.a. <span id="tokenVal" class="value">8</span>%</label>
+      <input type="range" min="0" max="20" value="8" step="0.5" id="tokenSlider" class="slider w-full" oninput="updateDashboard()">
     </div>
     <div>
-      <label>Negative Price Hours per Year</label>
-      <input type="range" min="400" max="1200" value="800" class="slider w-full" id="hoursSlider" oninput="updateAll()">
+      <label class="block text-sm mb-2">Negative Price Hours / Jahr <span id="hoursVal" class="value">800</span></label>
+      <input type="range" min="400" max="1400" value="800" step="50" id="hoursSlider" class="slider w-full" oninput="updateDashboard()">
     </div>
-    <!-- Weitere Slider für Solar Yield, Arbitrage Price etc. -->
+    <div>
+      <label class="block text-sm mb-2">Solar Yield (kWh/kWp) <span id="solarVal" class="value">1100</span></label>
+      <input type="range" min="900" max="1300" value="1100" step="10" id="solarSlider" class="slider w-full" oninput="updateDashboard()">
+    </div>
+    <div>
+      <label class="block text-sm mb-2">Arbitrage Preis (€/MWh) <span id="priceVal" class="value">-120</span></label>
+      <input type="range" min="-300" max="0" value="-120" step="10" id="priceSlider" class="slider w-full" oninput="updateDashboard()">
+    </div>
   </div>
 
-  <!-- Live Tabelle + Charts -->
-  <div id="liveTable" class="max-w-4xl mx-auto mt-8"></div>
+  <!-- Key Metrics -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+    <div class="bg-gray-900 rounded-3xl p-6 text-center">
+      <p class="text-emerald-300 text-sm">20-Jahres Netto-Nutzen</p>
+      <p id="totalNet" class="text-5xl font-bold text-emerald-400">3.850.000 €</p>
+    </div>
+    <div class="bg-gray-900 rounded-3xl p-6 text-center">
+      <p class="text-emerald-300 text-sm">CO₂-Einsparung</p>
+      <p id="co2Total" class="text-5xl font-bold text-emerald-400">5.200 t</p>
+    </div>
+    <div class="bg-gray-900 rounded-3xl p-6 text-center">
+      <p class="text-emerald-300 text-sm">Break-even</p>
+      <p id="breakeven" class="text-5xl font-bold text-emerald-400">Q2 2027</p>
+    </div>
+    <div class="bg-gray-900 rounded-3xl p-6 text-center">
+      <p class="text-emerald-300 text-sm">Kum. Liquidität 2046</p>
+      <p id="cumLiquidity" class="text-5xl font-bold text-emerald-400">3.850.000 €</p>
+    </div>
+  </div>
 
-  <!-- Pop-up Beispiele (Tech Level) -->
-  <button onclick="showPopup(1)" class="bg-green-600 px-6 py-3 rounded-xl">What is Patent DE10307771B4?</button>
-  <div id="popup1" class="popup">The patented spiral hill-bed system with central pond achieves 30,000-fold yield increase through synergistic planting and water recycling.</div>
+  <!-- Monthly 2026 Table -->
+  <h3 class="text-2xl font-semibold mb-4">2026 Monatliche Liquidität (Pilotphase)</h3>
+  <div class="overflow-x-auto mb-12 bg-gray-900 rounded-3xl p-4">
+    <table id="monthlyTable" class="w-full text-sm"></table>
+  </div>
 
-  <script>
-    function updateAll() {
-      // Hier Formeln aus der Excel nachbauen – live aktualisieren
-      console.log("Updating with sliders...");
-      // Vollständige JS-Logik kann bei Bedarf erweitert werden
-    }
-    function showPopup(n) { /* Modal logic */ }
-  </script>
+  <!-- Annual Overview -->
+  <h3 class="text-2xl font-semibold mb-4">Jährliche Übersicht 2027–2046 (mit Sensitivität)</h3>
+  <div class="overflow-x-auto mb-12 bg-gray-900 rounded-3xl p-4">
+    <table id="annualTable" class="w-full text-sm"></table>
+  </div>
+
+  <!-- Chart -->
+  <h3 class="text-2xl font-semibold mb-4">Kumulative Liquidität über 20 Jahre</h3>
+  <div class="bg-gray-900 rounded-3xl p-8">
+    <canvas id="liquidityChart" class="w-full h-96"></canvas>
+  </div>
+
+  <!-- Tech Pop-ups -->
+  <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+    <button onclick="showModal(1)" class="bg-emerald-700 hover:bg-emerald-600 px-6 py-4 rounded-2xl text-left">Patent DE10307771B4</button>
+    <button onclick="showModal(2)" class="bg-emerald-700 hover:bg-emerald-600 px-6 py-4 rounded-2xl text-left">D-Wave Jülich Quantum-Optimierung</button>
+    <button onclick="showModal(3)" class="bg-emerald-700 hover:bg-emerald-600 px-6 py-4 rounded-2xl text-left">888 Peace Edition ESG-Token</button>
+    <button onclick="showModal(4)" class="bg-emerald-700 hover:bg-emerald-600 px-6 py-4 rounded-2xl text-left">Telekom Smart-Meter + Negative Strompreise</button>
+  </div>
+</div>
+
+<!-- Modals -->
+<div id="modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+  <div class="modal bg-gray-900 rounded-3xl max-w-lg w-full mx-4 p-8">
+    <div id="modalContent" class="prose prose-invert"></div>
+    <button onclick="hideModal()" class="mt-8 px-8 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-2xl">Schließen</button>
+  </div>
+</div>
+
+<script>
+  // Basisdaten aus der Excel (konservativ)
+  let baseMonthly = [
+    {month:"Mai 2026", inflows:123400, grant:88400, token:25000, arb:10000, outflows:68000, net:55400, cum:55400},
+    {month:"Jun 2026", inflows:42000, grant:0, token:28000, arb:14000, outflows:72000, net:-30000, cum:25400},
+    {month:"Jul 2026", inflows:38000, grant:0, token:30000, arb:8000, outflows:65000, net:-27000, cum:-1600},
+    {month:"Aug 2026", inflows:96300, grant:66300, token:22000, arb:8000, outflows:78000, net:18300, cum:16700},
+    {month:"Sep 2026", inflows:45000, grant:0, token:35000, arb:10000, outflows:82000, net:-37000, cum:-20300},
+    {month:"Okt 2026", inflows:52000, grant:0, token:38000, arb:14000, outflows:75000, net:-23000, cum:-43300},
+    {month:"Nov 2026", inflows:96300, grant:66300, token:25000, arb:5000, outflows:68000, net:28300, cum:-15000},
+    {month:"Dez 2026", inflows:68000, grant:0, token:45000, arb:23000, outflows:85000, net:-17000, cum:-32000}
+  ];
+
+  let baseAnnual = [
+    {year:2027, inflows:780000, token:280000, arb:320000, outflows:520000, net:260000, cum:228000},
+    {year:2028, inflows:1150000, token:420000, arb:380000, outflows:680000, net:470000, cum:698000},
+    {year:2029, inflows:1300000, token:455000, arb:400000, outflows:720000, net:580000, cum:1278000},
+    {year:2046, inflows:0, token:0, arb:0, outflows:0, net:0, cum:3850000}
+  ];
+
+  let chartInstance = null;
+
+  function updateDashboard() {
+    const tokenGrowth = parseFloat(document.getElementById('tokenSlider').value);
+    const hours = parseFloat(document.getElementById('hoursSlider').value);
+    const solar = parseFloat(document.getElementById('solarSlider').value);
+    const price = parseFloat(document.getElementById('priceSlider').value);
+
+    document.getElementById('tokenVal').textContent = tokenGrowth;
+    document.getElementById('hoursVal').textContent = hours;
+    document.getElementById('solarVal').textContent = solar;
+    document.getElementById('priceVal').textContent = price;
+
+    // Einfache Sensitivität (linear skaliert)
+    const multiplier = 1 + (tokenGrowth - 8) * 0.08 + (hours - 800) * 0.0008;
+
+    // Monthly Tabelle aktualisieren
+    let html = `<thead><tr class="bg-gray-800"><th class="text-left p-4">Monat</th><th class="text-right p-4">Einzahlungen</th><th class="text-right p-4">Token</th><th class="text-right p-4">Arbitrage</th><th class="text-right p-4">Auszahlungen</th><th class="text-right p-4">Netto</th><th class="text-right p-4">Kumuliert</th></tr></thead><tbody>`;
+    let cum = 0;
+    baseMonthly.forEach(row => {
+      const newNet = Math.round(row.net * multiplier);
+      cum += newNet;
+      html += `<tr class="border-t border-gray-700"><td class="p-4">${row.month}</td><td class="text-right p-4">${row.inflows.toLocaleString('de-DE')}</td><td class="text-right p-4">${row.token.toLocaleString('de-DE')}</td><td class="text-right p-4">${row.arb.toLocaleString('de-DE')}</td><td class="text-right p-4">${row.outflows.toLocaleString('de-DE')}</td><td class="text-right p-4 ${newNet>=0?'text-emerald-400':'text-red-400'}">${newNet.toLocaleString('de-DE')}</td><td class="text-right p-4">${cum.toLocaleString('de-DE')}</td></tr>`;
+    });
+    html += `</tbody>`;
+    document.getElementById('monthlyTable').innerHTML = html;
+
+    // Key Metrics
+    document.getElementById('totalNet').textContent = (3850000 * multiplier).toLocaleString('de-DE') + ' €';
+    document.getElementById('co2Total').textContent = Math.round(5200 * multiplier) + ' t';
+    document.getElementById('breakeven').textContent = multiplier > 1.1 ? 'Q1 2027' : 'Q2 2027';
+    document.getElementById('cumLiquidity').textContent = (3850000 * multiplier).toLocaleString('de-DE') + ' €';
+
+    // Annual Tabelle (vereinfacht)
+    let annualHTML = `<thead><tr class="bg-gray-800"><th class="text-left p-4">Jahr</th><th class="text-right p-4">Token+ESG</th><th class="text-right p-4">Arbitrage+Solar</th><th class="text-right p-4">Netto-Cashflow</th><th class="text-right p-4">Kumuliert</th></tr></thead><tbody>`;
+    baseAnnual.forEach(row => {
+      annualHTML += `<tr class="border-t border-gray-700"><td class="p-4">${row.year}</td><td class="text-right p-4">${Math.round(row.token * multiplier).toLocaleString('de-DE')}</td><td class="text-right p-4">${Math.round(row.arb * multiplier).toLocaleString('de-DE')}</td><td class="text-right p-4 text-emerald-400">${Math.round(row.net * multiplier).toLocaleString('de-DE')}</td><td class="text-right p-4">${Math.round(row.cum * multiplier).toLocaleString('de-DE')}</td></tr>`;
+    });
+    annualHTML += `</tbody>`;
+    document.getElementById('annualTable').innerHTML = annualHTML;
+
+    // Chart aktualisieren
+    updateChart(multiplier);
+  }
+
+  function updateChart(multiplier) {
+    const ctx = document.getElementById('liquidityChart');
+    if (chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['2026','2027','2028','2030','2035','2040','2046'],
+        datasets: [{
+          label: 'Kumulative Liquidität (€)',
+          data: [ -32000, 228000, 698000, 2621000, 2850000, 3300000, 3850000 * multiplier ],
+          borderColor: '#10b981',
+          tension: 0.4,
+          fill: true,
+          backgroundColor: 'rgba(16, 185, 129, 0.15)'
+        }]
+      },
+      options: { plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#374151' } } } }
+    });
+  }
+
+  function showModal(n) {
+    const modal = document.getElementById('modal');
+    const content = document.getElementById('modalContent');
+    if (n === 1) content.innerHTML = `<h2 class="text-2xl font-bold mb-4">Patent DE10307771B4</h2><p>Autonomes Hügelbeet mit zentralem Teich (Spiral-/Ringform). 30.000-fache Ertragssteigerung durch synergetische Pflanzung, Wasser-Recycling und organische Füllung.</p>`;
+    if (n === 2) content.innerHTML = `<h2 class="text-2xl font-bold mb-4">D-Wave Jülich</h2><p>Quantum-Annealing-Optimierung für Energie-Arbitrage und Aquafarming. Über GitHub-Repo USP direkt mit JUNIQ-System verbunden.</p>`;
+    if (n === 3) content.innerHTML = `<h2 class="text-2xl font-bold mb-4">888.888.888 Peace Edition</h2><p>Globale ESG-Token auf rosary.health. Asset-backed durch Dehydrogenase-Messwerte aus dem Patent.</p>`;
+    if (n === 4) content.innerHTML = `<h2 class="text-2xl font-bold mb-4">Telekom Smart-Meter</h2><p>Echtzeit-Arbitrage bei negativen Strompreisen (bis –499 €/MWh). EEG/Netzagentur-Vergütung + Token-Rewards.</p>`;
+    modal.classList.remove('hidden');
+  }
+
+  function hideModal() {
+    document.getElementById('modal').classList.add('hidden');
+  }
+
+  // Initialisierung
+  window.onload = () => {
+    updateDashboard();
+  };
+</script>
 </body>
 </html>
