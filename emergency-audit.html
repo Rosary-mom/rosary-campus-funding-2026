@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MISSION: PREIS-FLUT | Rosary Bio2.0</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #050505;
+            --hud-red: #ff003c;
+            --hud-blue: #00f0ff;
+            --hud-text: #e0e0e0;
+            --grid-color: rgba(0, 240, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--hud-text);
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Share Tech Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- TACTICAL HEADER & HERO --- */
+        .hero {
+            border: 2px solid var(--hud-red);
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.3);
+            padding: 40px;
+            margin-top: 40px;
+            text-align: center;
+            position: relative;
+            background: rgba(10, 10, 10, 0.8);
+        }
+
+        .hero h1 {
+            color: var(--hud-red);
+            font-size: 3em;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            color: var(--hud-text);
+        }
+
+        /* Haupt-Video Container */
+        .main-video-container {
+            margin-top: 30px;
+            border: 1px solid var(--hud-blue);
+            padding: 5px;
+            background: #000;
+        }
+
+        .main-video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- MISSION INTEL (Text Section) --- */
+        .intel-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .box {
+            background: rgba(0, 20, 30, 0.6);
+            border-left: 4px solid var(--hud-blue);
+            padding: 25px;
+            font-size: 1.2em;
+            line-height: 1.5;
+        }
+
+        .box.alert {
+            border-left: 4px solid var(--hud-red);
+        }
+
+        /* --- Q-HEBEL SIMULATION (Colab Integration) --- */
+        .simulation-panel {
+            margin-top: 40px;
+            border: 1px solid #fff;
+            background: #111;
+            padding: 30px;
+        }
+
+        .simulation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #555;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .hud-data {
+            font-family: 'Share Tech Mono', monospace;
+            color: #ffaa00; /* Gold/Yellow from your plot */
+            font-size: 0.9em;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        /* --- IFRAME MULTI-MONITOR --- */
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .iframe-wrapper {
+            border: 1px solid #444;
+            padding: 5px;
+            background: #000;
+        }
+
+        iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+        }
+
+        /* --- CALL TO ACTION (ACTION BUTTON) --- */
+        .action-station {
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .btn-strike {
+            background: var(--hud-red);
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.5em;
+            padding: 20px 40px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px var(--hud-red);
+            transition: all 0.3s ease;
+        }
+
+        .btn-strike:hover {
+            background: #fff;
+            color: var(--hud-red);
+            box-shadow: 0 0 30px #fff;
+        }
+
+        @media (max-width: 768px) {
+            .intel-panel, .video-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <h1>[🚨] MISSION: PREIS-FLUT STOPPEN</h1>
+        <p>Die Lieferketten brechen. Retten Sie Ihre Liquidität durch autarke Bio-Ökonomie.</p>
+        
+        <div class="main-video-container">
+            <video autoplay loop muted controls>
+                <source src="http://googleusercontent.com/generated_video_content/11954666570416346836" type="video/mp4">
+                Ihr Browser unterstützt keine HTML5 Videos.
+            </video>
+        </div>
+    </div>
+
+    <div class="intel-panel">
+        <div class="box alert">
+            <h3>> THE THREAT // SYSTEMVERSAGEN</h3>
+            <p>Die "Straße von Hormus"-Krise treibt die Kosten für fossilen Dünger und Kraftfutter in existenzgefährdende Höhen. Egal ob konventioneller oder Bio-Betrieb: Die Preis-Flut frisst Ihre Margen. Sie brauchen eine sofortige, skalierbare Lösung.</p>
+        </div>
+        <div class="box">
+            <h3>> THE LOADOUT // ROSARY BIO2.0</h3>
+            <p>Wir ersetzen globale Abhängigkeiten durch dezentrales Deep-Tech-Engineering. Prozedural berechnete "Rosary Ridgebeds", 100 Tonnen Aquakultur-Biomasse pro Hektar und Enzym-Turbos (Subtilisin Carlsberg) liefern Kraftfutter für < 0,50 €/kg.</p>
+            <p style="font-family: 'Share Tech Mono'; color: var(--hud-blue);">[STATUS: BEHÖRDLICH ERPROBT - FLUTHILFE KRISENSTAB]</p>
+        </div>
+    </div>
+
+    <div class="simulation-panel">
+        <div class="simulation-header">
+            <h2>> LIVE INTEL: DER Q-HEBEL-EFFEKT</h2>
+            <div class="hud-data">
+                INPUT_DATA: <br>
+                > 20% Holzkohle-Matrix (Terra Preta) <br>
+                > 2.500 t Biomasse/ha <br>
+                > Faktor 30.000 vs. Katalysator
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="qHebelChart"></canvas>
+        </div>
+    </div>
+
+    <div class="video-grid">
+        <div class="iframe-wrapper">
+            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_1" title="Field Study Audit" allowfullscreen></iframe>
+        </div>
+        <div class="iframe-wrapper">
+            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_2" title="Unfold Archive" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="action-station">
+        <button class="btn-strike" onclick="alert('System verbindet zu RosaryParish.com Secure Server... Initiere Kurz-Audit.')">
+            ⚡ JETZT 15-MINUTEN NOTFALL-AUDIT BUCHEN
+        </button>
+    </div>
+</div>
+
+<script>
+    // Daten-Generierung passend zu deinem Colab-Screenshot
+    const years = Array.from({length: 21}, (_, i) => i); // 0 bis 20 Jahre
+    
+    // Mechanische CO2-Speicherung (Linear/Langsam) - Die gestrichelte rote Linie
+    const linearData = years.map(x => x === 0 ? 0 : 2 * x + 1); 
+
+    // Rosary-System Q-Hebel (Exponentiell) - Die durchgehende lila Linie
+    // Startet klein, wächst extrem schnell auf ca. 10^5 an
+    const exponentialData = years.map(x => {
+        if (x === 0) return 5;
+        return 5 * Math.pow(2.2, x * 0.5); // Simulierte Wachstumskurve
+    });
+
+    const ctx = document.getElementById('qHebelChart').getContext('2d');
+    const qHebelChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: [
+                {
+                    label: 'Rosary-System (Q-Hebel: Exponentiell)',
+                    data: exponentialData,
+                    borderColor: '#800080', // Lila
+                    backgroundColor: 'rgba(255, 204, 0, 0.2)', // Gelbe Füllung unter der Kurve
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                },
+                {
+                    label: 'Mechanische CO2-Speicherung (Linear)',
+                    data: linearData,
+                    borderColor: '#ff003c', // Rot gestrichelt
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    title: { display: true, text: 'Jahre nach Anlage', color: '#fff' },
+                    ticks: { color: '#aaa' },
+                    grid: { color: '#333' }
+                },
+                y: {
+                    type: 'logarithmic', // WICHTIG: Das macht den Graphen genau wie in deinem Colab!
+                    title: { display: true, text: 'Biomasse & CO2-Speicherung (Logarithmisch)', color: '#fff' },
+                    ticks: { color: '#aaa' },
+                    grid: { color: '#333' }
+                }
+            },
+            plugins: {
+                legend: { labels: { color: '#fff', font: { family: "'Share Tech Mono', monospace" } } }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
