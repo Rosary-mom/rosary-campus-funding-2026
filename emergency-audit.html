@@ -90,12 +90,14 @@
         }
         .form-group input:focus { border-color: var(--hud-blue); outline: none; box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
 
+        /* Link-Button Styling */
         .btn-strike {
             display: inline-block; width: 100%; background: var(--hud-red); color: #fff;
             font-family: 'Share Tech Mono', monospace; font-size: 1.3em; padding: 20px;
             text-decoration: none; text-transform: uppercase; letter-spacing: 2px;
             border: none; cursor: pointer; box-shadow: 0 0 15px var(--hud-red);
             transition: all 0.3s ease; margin-top: 20px;
+            box-sizing: border-box;
         }
         .btn-strike:hover { background: #fff; color: var(--hud-red); box-shadow: 0 0 30px #fff; }
 
@@ -159,32 +161,24 @@
 
     <div class="booking-station">
         <h2>> AUDIT REGISTRIERUNG & CLEARANCE</h2>
-        <p style="color: #ccc; margin-bottom: 30px;">Sichern Sie sich Ihren 15-Minuten-Notfall-Audit. Geben Sie Ihre Betriebsdaten ein, um den Analyse-Prozess zu starten.</p>
+        <p style="color: #ccc; margin-bottom: 30px;">Geben Sie Ihre Daten ein und fordern Sie Ihr Audit-Ticket an. Die Abrechnung erfolgt im nächsten Schritt über unseren sicheren Webshop.</p>
         
-        <form action="https://rosary.health/produkt/mission-preis-flut/" method="GET">
-            <div class="form-group">
-                <label>> VOLLSTÄNDIGER NAME / BETRIEB</label>
-                <input type="text" required placeholder="Geben Sie Ihren Namen ein...">
-            </div>
-            <div class="form-group">
-                <label>> ADRESSE (STRASSE, PLZ, ORT)</label>
-                <input type="text" required placeholder="Standort des Betriebs...">
-            </div>
-            <div class="form-group">
-                <label>> SECURE E-MAIL</label>
-                <input type="email" required placeholder="Ihre geschäftliche E-Mail...">
-            </div>
-            <div class="form-group">
-                <label>> TELEFON (FÜR RÜCKFRAGEN)</label>
-                <input type="tel" required placeholder="+49 ...">
-            </div>
-            
-            <p style="color: var(--hud-red); font-size: 0.9em; text-align: left; margin-top: 20px;">
-                * Nach der Buchung des Pakets im System erhalten Sie sofortigen Zugriff auf die sichere BigBlueButton-Konferenz.
-            </p>
-
-            <button type="submit" class="btn-strike">⚡ ZUM SHOP & AUDIT BUCHEN</button>
-        </form>
+        <div class="form-group">
+            <label>> VOLLSTÄNDIGER NAME / BETRIEB</label>
+            <input type="text" placeholder="Geben Sie Ihren Namen ein...">
+        </div>
+        <div class="form-group">
+            <label>> ADRESSE (STRASSE, PLZ, ORT)</label>
+            <input type="text" placeholder="Standort des Betriebs...">
+        </div>
+        <div class="form-group">
+            <label>> SECURE E-MAIL</label>
+            <input type="email" placeholder="Ihre geschäftliche E-Mail...">
+        </div>
+        
+        <a href="https://rosary.health/product/%f0%9f%9a%a8-mission-preis-flut-audit-pakete/" class="btn-strike">
+            ⚡ ZUM SHOP & AUDIT BUCHEN
+        </a>
 
         <div class="auth-bypass">
             [SYS.ADMIN] Audit-Ticket bereits gelöst? <br>
