@@ -1,13 +1,15 @@
 <section id="investor-data" style="padding: 40px; background-color: #f9f9f9; border-top: 2px solid #eaeaea;">
     <div style="max-width: 900px; margin: 0 auto; font-family: Arial, sans-serif;">
+        
         <h2 style="color: #2c3e50;">📂 Investor Relations & Technical Due Diligence</h2>
+        
         <div style="background-color: #050505; border-left: 5px solid #ff003c; padding: 20px; margin: 20px 0; text-align: center; box-shadow: 0 0 15px rgba(255,0,60,0.2);">
-  <h3 style="color: #ff003c; font-family: monospace; margin-top: 0;">🚨 MISSION: PREIS-FLUT STOPPEN</h3>
-  <p style="color: #eee; font-family: sans-serif;">Liquiditätsengpässe durch explodierende Düngerkosten? Buchen Sie jetzt das 15-Minuten Tactical R&D Audit.</p>
-  <a href="emergency-audit.html" target="_blank" style="display: inline-block; background-color: #ff003c; color: #fff; padding: 12px 24px; text-decoration: none; font-family: monospace; font-weight: bold; font-size: 1.1em; border-radius: 3px; border: 1px solid #ff003c; transition: all 0.3s;">
-    > JETZT SYSTEM-CHECK STARTEN
-  </a>
-</div>
+            <h3 style="color: #ff003c; font-family: monospace; margin-top: 0;">🚨 MISSION: PREIS-FLUT STOPPEN</h3>
+            <p style="color: #eee; font-family: sans-serif;">Liquiditätsengpässe durch explodierende Düngerkosten? Buchen Sie jetzt das 15-Minuten Tactical R&D Audit.</p>
+            <a href="emergency-audit.html" target="_blank" style="display: inline-block; background-color: #ff003c; color: #fff; padding: 12px 24px; text-decoration: none; font-family: monospace; font-weight: bold; font-size: 1.1em; border-radius: 3px; border: 1px solid #ff003c; transition: all 0.3s;">
+                > JETZT SYSTEM-CHECK STARTEN
+            </a>
+        </div>
         
         <div style="background-color: #e8f4f8; padding: 15px; border-left: 5px solid #007bff; margin-bottom: 25px;">
             <strong>Open Science Statement:</strong><br>
@@ -64,5 +66,6 @@
                 Die oben verlinkten <code>.txt</code> Dateien sind für die Verarbeitung durch Large Language Models (LLMs) optimiert. Investoren können diese URLs in Tools wie <em>NotebookML</em> oder <em>ChatGPT</em> laden, um die wissenschaftliche Validität unabhängig zu auditieren.
             </p>
         </div>
+        
     </div>
 </section>
